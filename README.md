@@ -1,0 +1,5 @@
+# Image Processing with CNN
+
+## General CNN Instructions
+
+ The  CNN  architecture for this  assignment  is  given  in  Figure  2.  This  network  has  two  convlayers,  and  three fc  layers.  Each  convlayer  is  followed  by  a  max  poolinglayer.  Both conv  layers  accept  an  inputreceptive field of spatial size 5x5. The filter numbers of the first and the second conv layers are 6 and 16 respectively. The stride parameter is 1 and no padding is used. The twomax poolinglayers take an input window  size  of  2x2,  reduce  the  window  size  to  1x1  by  choosing  the  maximum  value  of  the  four  responses. The first two fc layers have 120 and 80 filters, respectively. The last fc layer, the output layer, has  size  of  10  to  match  the  number  of  object  classes  in  the  MNIST  dataset.  Use  the  popular  ReLU  activation function [3] for all convand all fc layers except for the output layer, which uses softmax [4] to compute the probabilities.
