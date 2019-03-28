@@ -1,6 +1,6 @@
 # Image Processing with CNN
 
-## General CNN Instructions
+## CNN Architecture
 
  The  CNN  architecture for this  assignment  is  given  in  Figure  2.  This  network  has  two  convlayers,  and  three fc  layers.  Each  convlayer  is  followed  by  a  max  poolinglayer.
 
@@ -13,34 +13,12 @@
  ### FC Layers:
  The first two fc layers have 120 and 80 filters, respectively. The last fc layer, the output layer, has  size  of  10  to  match  the  number  of  object  classes  in  the  MNIST  dataset.  Use  the  popular  ReLU  activation function [3] for all convand all fc layers except for the output layer, which uses softmax [4] to compute the probabilities.
 
+## TO DO
+1. Plot epoch-accuracy
+    * https://discuss.pytorch.org/t/easiest-way-to-draw-training-validation-loss/13195
+    * https://jhui.github.io/2018/02/09/PyTorch-Data-loading-preprocess_torchvision/
+    * https://github.com/TeamHG-Memex/tensorboard_logger
+2. Find 5 parameters to change to change epoch-accuracy
+    * Ideas: batchSize, epochs, number strides, etc.
 
- ## Discussion 11 Notes
- layers
- self.conv1 = Conv2d(3, 6, 5)
- self.pool = MaxPool2d(2, 2)
- self.conv2 = Conv2d(6, 16, 5)
- self.fc1 = Linear(16 * 5 * 5, 120)
- self.fc2 = Linear(120, 84)
- self.fc3 = Linear(84, 10)
-
- forward function fwd(self, x):
-    x = self.pool(F.relu(self.conv1(x)))
-    x = self.pool(F.relu(self.conv2(X)))
-    x = x.view(-1, 16 * 5 * 5)
-    x = F.relu(self.fc1(x))
-    x = F.relu(self.fc2(x))
-    x = self.fc3(x)
-    return x
-
-Step 1:
-Step 2:
-Step 3: Define a Loss Function and Optimizer
-- Loss fn: nn.CrossEntropyLoss()
-    * criterion(outputs, labels)
-    * output against labels (cross entropy)
-    
-- Optimizer: optim.SGD()
-    * update weight
-
-Testing
  
