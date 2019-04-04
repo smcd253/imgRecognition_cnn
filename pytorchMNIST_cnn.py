@@ -9,7 +9,6 @@ import torchvision.transforms as transforms
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Assuming that we are on a CUDA machine, this should print a CUDA device:
-
 print("DEVICE: ")
 print(device)
 print()
@@ -18,7 +17,10 @@ print()
 # The output of torchvision datasets are PILImage images of range [0, 1].
 # We transform them to Tensors of normalized range [-1, 1].
 
-batchSize = 4
+########################################################################
+# we're going to do multiple itera
+
+batchSize = 2
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
@@ -115,20 +117,11 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 # We simply have to loop over our data iterator, and feed the inputs to the
 # network and optimize.
 
-#target GPU
-# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-# print(device)
-# net.to(device) # transfer netwrok to gpu
-
-# ADDED BY TA
-# net.train() # sets model to training mode (if you have drouout and BN, Batch Nom)
+net.train() # sets model to training mode (if you have drouout and BN, Batch Nom)
 
 losses = []
 epoch_losses = []
 num_epochs = 1
-
-fig = plt.figure()
-ax1 = fig.add_subplot()
 
 for epoch in range(num_epochs):  # loop over the dataset multiple times
 
@@ -136,7 +129,7 @@ for epoch in range(num_epochs):  # loop over the dataset multiple times
     # iterate over data
     for i, data in enumerate(trainloader, 0):
         # get the inputs
-#         inputs, labels = data
+        inputs, labels = data
         # transfer to gpu
         inputs, labels = inputs.to(device), labels.to(device)
 
@@ -158,13 +151,9 @@ for epoch in range(num_epochs):  # loop over the dataset multiple times
             running_loss = 0.0
     plt.plot(losses, label = 'epoch %d' % (epoch + 1)) 
     losses.clear()
-#     print("epoch_losses[%d] = " % (epoch + 1))
-#     print(*(epoch_losses + epoch), sep = ", ")
-    
-# for i, epoch in enumerate(epoch_losses,0):
-#   plt.plot(epoch, label = '%d' % (i + 1))
 
-plt.legend(loc='upper left');
+
+plt.legend(loc='upper left')
 plt.show()
 
 print('Finished Training')
@@ -191,8 +180,8 @@ print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(batchS
 
 ########################################################################
 # Okay, now let us see what the neural network thinks these examples above are:
-
-outputs = net(images)
+exampleCUDA = images.to(device)
+outputs = net(exampleCUDA)
 
 ########################################################################
 # The outputs are energies for the 10 classes.
@@ -211,10 +200,11 @@ print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
 
 correct = 0
 total = 0
-# net.eval()
+net.eval()
 with torch.no_grad():
     for data in testloader:
         images, labels = data
+        images, labels = images.to(device), labels.to(device)        
         outputs = net(images)
         _, predicted = torch.max(outputs.data, 1)
         total += labels.size(0)

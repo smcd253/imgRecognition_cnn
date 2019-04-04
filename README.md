@@ -21,4 +21,9 @@
 2. Find 5 parameters to change to change epoch-accuracy
     * Ideas: batchSize, epochs, number strides, etc.
 
- 
+## Installing Correct NVIDIA Drivers for Ubuntu 18.04 Bionic Beaver
+Use the Following Link: https://linuxconfig.org/how-to-install-the-nvidia-drivers-on-ubuntu-18-04-bionic-beaver-linux
+
+Follow the "Manual Install using the Official Nvidia.com driver" section
+
+NOTE: Installing nvidia drivers through apt or apt-get will result in a bootup issue! Follow the manual download process and build from source.
