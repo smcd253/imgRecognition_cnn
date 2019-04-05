@@ -7,6 +7,7 @@ import torchvision.transforms as transforms
 import PIL.ImageOps
 from PIL import Image 
 
+import sys
 
 #####################################
 # lamda functions
@@ -14,7 +15,7 @@ def invert(x):
     return 1 - x
 
 #####################################
-# BASIC FUNCTIONS
+# PLOT FUNCTIONS
 
 def imshow(img):
     img = img / 2 + 0.5     # unnormalize
@@ -84,31 +85,37 @@ print()
 import matplotlib.pyplot as plt
 import numpy as np
 
-# use dictionary to keep track of multiple plots
-figs = {}
-figEpochAcc, axEpochAcc = plt.subplots()
+arg = sys.argv[1]
+if arg is "negative" or arg is "neg" or arg is "n":
+    print("Running MNIST Negatives Through CNN")
+    transform = transforms.Compose(
+                [transforms.ToTensor(),
+                transforms.Lambda(lambda x: invert(x)),
+                transforms.Normalize((0.5,), (1.0,))]
+                )
+else:
+    print("Running Standard MNIST Through CNN")
+    transform = transforms.Compose(
+                [transforms.ToTensor(),
+                transforms.Normalize((0.5,), (1.0,))])
 
-batch_sizes = [1, 2]
-num_epochs = 4
+exec = sys.argv[2]
+if exec is "trial" or exec is "t":
+    batch_sizes = [1, 2]
+    num_epochs = 4
+else:
+    batch_sizes = [1, 2, 4, 8, 16]
+    num_epochs = 16
 for b, batchSize in enumerate(batch_sizes):
 
-    transform = transforms.Compose(
-        [transforms.ToTensor(),
-        transforms.Normalize((0.5,), (1.0,))])
-    tranInv = transforms.Compose(
-        [transforms.ToTensor(),
-        transforms.Lambda(lambda x: invert(x)),
-        transforms.Normalize((0.5,), (1.0,))]
-    )
-
     trainset = torchvision.datasets.MNIST(root='/home/spencer/Documents/ee569/MNIST', train=True,
-                                            download=True, transform=tranInv)
+                                            download=True, transform=transform)
 
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batchSize,
                                             shuffle=True, num_workers=2)  
 
     testset = torchvision.datasets.MNIST(root='/home/spencer/Documents/ee569/MNIST', train=False,
-                                        download=True, transform=transforms.ToTensor())
+                                        download=True, transform=transform)
     testloader = torch.utils.data.DataLoader(testset, batch_size=batchSize,
                                             shuffle=False, num_workers=2)
 
