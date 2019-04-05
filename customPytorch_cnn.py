@@ -34,6 +34,8 @@ def plotBatchAccuracy(epoch_accuracy, batchSize): # source: https://stackoverflo
     epoch_accuracy.popleft() # trim 0 value to get max and min
     plt.xlim(left=1)
     plt.ylim(bottom = min(epoch_accuracy), top = max(epoch_accuracy))
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy (%%)")
     fig.suptitle("Test Accuracy per Epoch (Batch Size = %d)" % (batchSize))
     fig.savefig("negativeTorchResults/testAcc_batchSize_%d.png" % (batchSize))
 
@@ -47,7 +49,9 @@ def plotLoss(lossesByEpoch, batchSize):
     for epoch,losses in enumerate(lossesByEpoch):
         axs.plot(losses, label = 'epoch %d' % (epoch + 1))
     plt.xlim(left=1)
-    plt.legend(loc='upper left')
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.xlabel("Mini-Batch Per Epoch (size 2000)")
+    plt.ylabel("Loss")
     fig.suptitle("Training Loss by Epoch (Batch Size = %d)" % (batchSize))
     fig.savefig('negativeTorchResults/trainLoss_by_epoch_batchSize_%d' % (batchSize))
 
@@ -61,7 +65,9 @@ def plotAccuracy(trainAccByEpoch, batchSize):
     for epoch,accuracies in enumerate(trainAccByEpoch):
         axs.plot(accuracies, label = 'epoch %d' % (epoch + 1))
     plt.xlim(left = 1)
-    plt.legend(loc='upper left')
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.xlabel("Mini-Batch Per Epoch (size 2000)")
+    plt.ylabel("Accuracy (%%)")
     fig.suptitle("Training Accuracy by Epoch (Batch Size = %d)" % (batchSize))
     fig.savefig('negativeTorchResults/trainAcc_by_epoch_batchSize_%d' % (batchSize))
 
@@ -87,14 +93,18 @@ import numpy as np
 
 arg = sys.argv[1]
 if arg is "negative" or arg is "neg" or arg is "n":
+    log = open("negativeTorchResults/log.txt", "w")
     print("Running MNIST Negatives Through CNN")
+    log.write("Running MNIST Negatives Through CNN")
     transform = transforms.Compose(
                 [transforms.ToTensor(),
                 transforms.Lambda(lambda x: invert(x)),
                 transforms.Normalize((0.5,), (1.0,))]
                 )
 else:
+    log = open("negativeTorchResults/log.txt", "w")
     print("Running Standard MNIST Through CNN")
+    log.write("Running Standard MNIST Through CNN")
     transform = transforms.Compose(
                 [transforms.ToTensor(),
                 transforms.Normalize((0.5,), (1.0,))])
@@ -104,7 +114,7 @@ if exec is "trial" or exec is "t":
     batch_sizes = [1, 2]
     num_epochs = 4
 else:
-    batch_sizes = [1, 2, 4, 8, 16]
+    batch_sizes = [1, 2, 4, 8, 16, 32]
     num_epochs = 16
 for b, batchSize in enumerate(batch_sizes):
 
@@ -227,6 +237,8 @@ for b, batchSize in enumerate(batch_sizes):
             running_loss += loss.item()
             if i % 2000 == 1999:    # print every 2000 mini-batches
                 print('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f' % (epoch + 1, num_epochs, i + 1, running_loss / 2000, train_acc))
+                log.write('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f' % (epoch + 1, num_epochs, i + 1, running_loss / 2000, train_acc))
+
                 losses.append(running_loss/2000)
                 running_loss = 0.0
                 #Accuracy
@@ -256,6 +268,7 @@ for b, batchSize in enumerate(batch_sizes):
                 correct += (predicted == labels).sum().item()
         accuracy = 100 * float(correct / total)
         print('Accuracy of the network on the 10000 test images after epoch %d: %f %%' % (epoch + 1, accuracy))
+        log.write('Accuracy of the network on the 10000 test images after epoch %d: %f %%' % (epoch + 1, accuracy))
         epoch_accuracy.append(accuracy)
 
     # plot losses
@@ -266,5 +279,6 @@ for b, batchSize in enumerate(batch_sizes):
     
     # plot accuracy
     plotBatchAccuracy(epoch_accuracy, batchSize)
-    
+
+log.close()    
     
