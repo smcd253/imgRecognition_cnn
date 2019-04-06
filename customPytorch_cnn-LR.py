@@ -81,13 +81,13 @@ def plotBatchRateAccuracy(epochAcc_byRate, batchSize):
     xint = range(1, epochAcc_byRate[0].__len__())
     plt.xticks(xint)
     for rateNum, epoch_accuracies in enumerate(epochAcc_byRate):
-        axs.plot(epoch_accuracies, label = 'rate %d' % (learning_rates[rateNum] + 1))
+        axs.plot(epoch_accuracies, label = 'rate %.3f' % (learning_rates[rateNum]))
     plt.xlim(left = 1)
     lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy (%)")
-    fig.suptitle("Test Accuracy per Epoch Over Different Rates (Batch Size = %d)" % (batchSize))
-    fig.savefig("%s/testAcc_batchSize_%d.png" % (writeLoc, batchSize), bbox_extra_artists=(lgd,), bbox_inches='tight')
+    title = fig.suptitle("Test Accuracy per Epoch Over Different Rates (Batch Size = %d)" % (batchSize))
+    fig.savefig("%s/testAcc_batchSize_%d.png" % (writeLoc, batchSize), bbox_extra_artists=(lgd,title), bbox_inches='tight')
 
 def plotLoss(lossesByEpoch, batchSize, rate):
     fig = plt.figure(figsize = [8.4, 4.8])
@@ -102,8 +102,8 @@ def plotLoss(lossesByEpoch, batchSize, rate):
     lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.xlabel("Mini-Batch Per Epoch (size 2000)")
     plt.ylabel("Loss")
-    fig.suptitle("Training Loss by Epoch (Batch Size = %d) (Learning Rate = %d)" % (batchSize, rate))
-    fig.savefig('%s/trainLoss_by_epoch_BS_%d_LR_%d' % (writeLoc, batchSize, rate), bbox_extra_artists=(lgd,), bbox_inches='tight')
+    title = fig.suptitle("Training Loss by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (batchSize, learning_rates[rate]))
+    fig.savefig('%s/trainLoss_by_epoch_BS_%d_LR_%.3f' % (writeLoc, batchSize, learning_rates[rate]), bbox_extra_artists=(lgd,title), bbox_inches='tight')
 
 def plotAccuracy(trainAccByEpoch, batchSize, rate):
     fig = plt.figure(figsize = [8.4, 4.8])
@@ -118,8 +118,8 @@ def plotAccuracy(trainAccByEpoch, batchSize, rate):
     lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.xlabel("Mini-Batch Per Epoch (size 2000)")
     plt.ylabel("Accuracy (%)")
-    fig.suptitle("Training Accuracy by Epoch (Batch Size = %d) (Learning Rate = %d)" % (batchSize, rate))
-    fig.savefig('%s/trainAcc_by_epoch_BS_%d_LR_%d' % (writeLoc, batchSize, rate), bbox_extra_artists=(lgd,), bbox_inches='tight')
+    title = fig.suptitle("Training Accuracy by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (batchSize, learning_rates[rate]))
+    fig.savefig('%s/trainAcc_by_epoch_BS_%d_LR_%.3f' % (writeLoc, batchSize, learning_rates[rate]), bbox_extra_artists=(lgd,title), bbox_inches='tight')
 
 
 # train on gpu
