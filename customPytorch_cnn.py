@@ -36,7 +36,7 @@ if exec is "debug" or exec is "d":
     batch_sizes = [1, 2]
     num_epochs = 4
 elif exec is "debugHigh" or exec is "dH":
-    batch_sizes = [256, 1024]
+    batch_sizes = [128, 256, 1024]
     num_epochs = 4
 elif exec is "test" or exec is "t":
     batch_sizes = [1, 2, 4, 8, 16, 32]
@@ -185,7 +185,7 @@ for b, batchSize in enumerate(batch_sizes):
             x = x.view(-1, 16 * 4 * 4) # x shape is 16 * 4 * 4
             x = F.relu(self.fc1(x)) # relu activation function on 
             x = F.relu(self.fc2(x))
-            x = F.softmax(self.fc3(x))
+            x = F.softmax(self.fc3(x), dim = 1)
             return x
 
 
