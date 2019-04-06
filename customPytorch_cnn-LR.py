@@ -110,7 +110,7 @@ def plotLoss(lossesByEpoch, batchSize, rate):
         rateWrite = "pt01"
     elif rate == 0.1:
         rateWrite = "pt1"
-    fig.savefig('%s/trainLoss_by_epoch_BS_%d_LR_%s' % (writeLoc, batchSize, rateWrite), bbox_extra_artists=(lgd,title), bbox_inches='tight')
+    fig.savefig('%s/trainLoss_by_epoch_BS%d_LR%s' % (writeLoc, batchSize, rateWrite), bbox_extra_artists=(lgd,title), bbox_inches='tight')
 
 def plotAccuracy(trainAccByEpoch, batchSize, rate):
     fig = plt.figure(figsize = [8.4, 4.8])
@@ -133,7 +133,7 @@ def plotAccuracy(trainAccByEpoch, batchSize, rate):
         rateWrite = "pt01"
     elif rate == 0.1:
         rateWrite = "pt1"
-    fig.savefig('%s/trainAcc_by_epoch_BS_%d_LR_%s' % (writeLoc, batchSize, rateWrite), bbox_extra_artists=(lgd,title), bbox_inches='tight')
+    fig.savefig('%s/trainAcc_by_epoch_BS%d_LR%s' % (writeLoc, batchSize, rateWrite), bbox_extra_artists=(lgd,title), bbox_inches='tight')
 
 
 # train on gpu
