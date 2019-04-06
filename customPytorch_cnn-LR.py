@@ -220,7 +220,8 @@ for b, batchSize in enumerate(batch_sizes):
     epochAcc_byRate = []
     # loop over different learning rates to see effect on accuracy
     for r, rate in enumerate(learning_rates):
-        optimizer = optim.SGD(net.parameters(), lr=rate, momentum=0.9)
+        # optimizer = optim.SGD(net.parameters(), lr=rate, momentum=0.9)
+        optimizer = optim.Adam(net.parameters(), lr=rate)
 
         ########################################################################
         # 4. Train the network
@@ -230,7 +231,7 @@ for b, batchSize in enumerate(batch_sizes):
         # We simply have to loop over our data iterator, and feed the inputs to the
         # network and optimize.
 
-        net.train() # sets model to training mode (if you have drouout and BN, Batch Nom)
+        net.train() # sets model to training mode (if you have dropout and BN, Batch Nom)
 
         lossesByEpoch = []
         trainAccByEpoch = []
