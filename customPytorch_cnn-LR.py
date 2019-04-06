@@ -32,8 +32,8 @@ elif arg is "standard" or arg is "std" or arg is "s":
 exec = sys.argv[2]
 if exec is "debug" or exec is "d":
     learning_rates = [0.001]
-    batch_sizes = [1, 2]
-    num_epochs = 4
+    batch_sizes = [4]
+    num_epochs = 2
 elif exec is "test" or exec is "t":
     learning_rates = [0.001, 0.01, 0.1]
     batch_sizes = [1, 2, 4, 8, 16, 32]
