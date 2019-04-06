@@ -104,11 +104,11 @@ def plotLoss(lossesByEpoch, batchSize, rate):
     plt.ylabel("Loss")
     title = fig.suptitle("Training Loss by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (batchSize, rate))
     rateWrite = "?"
-    if rate is 0.001:
+    if rate == 0.001:
         rateWrite = "pt001"
-    elif rate is 0.01:
+    elif rate == 0.01:
         rateWrite = "pt01"
-    elif rate is 0.1:
+    elif rate == 0.1:
         rateWrite = "pt1"
     fig.savefig('%s/trainLoss_by_epoch_BS_%d_LR_%s' % (writeLoc, batchSize, rateWrite), bbox_extra_artists=(lgd,title), bbox_inches='tight')
 
@@ -127,11 +127,11 @@ def plotAccuracy(trainAccByEpoch, batchSize, rate):
     plt.ylabel("Accuracy (%)")
     title = fig.suptitle("Training Accuracy by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (batchSize, rate))
     rateWrite = "?"
-    if rate is 0.001:
+    if rate == 0.001:
         rateWrite = "pt001"
-    elif rate is 0.01:
+    elif rate == 0.01:
         rateWrite = "pt01"
-    elif rate is 0.1:
+    elif rate == 0.1:
         rateWrite = "pt1"
     fig.savefig('%s/trainAcc_by_epoch_BS_%d_LR_%s' % (writeLoc, batchSize, rateWrite), bbox_extra_artists=(lgd,title), bbox_inches='tight')
 
