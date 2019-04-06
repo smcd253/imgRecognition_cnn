@@ -177,9 +177,9 @@ for b, batchSize in enumerate(batch_sizes):
             x = self.pool(F.relu(self.conv2(x)))
             #print(x.shape)
             x = x.view(-1, 16 * 4 * 4) # x shape is 16 * 4 * 4
-            x = F.relu(self.fc1(x))
+            x = F.relu(self.fc1(x)) # relu activation function on 
             x = F.relu(self.fc2(x))
-            x = self.fc3(x)
+            x = F.softmax(self.fc3(x))
             return x
 
 
