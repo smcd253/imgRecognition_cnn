@@ -14,7 +14,7 @@ if arg is "negative" or arg is "neg" or arg is "n":
     writeLoc = "negativeTorchResults-LR"
     log = open("negativeTorchResults/log.txt", "w")
     print("Running MNIST Negatives Through CNN")
-    log.writelines("Running MNIST Negatives Through CNN")
+    log.writelines("Running MNIST Negatives Through CNN\n")
     transform = transforms.Compose(
                 [transforms.ToTensor(),
                 transforms.Lambda(lambda x: invert(x)),
@@ -24,7 +24,7 @@ elif arg is "standard" or arg is "std" or arg is "s":
     writeLoc = "torchResults-LR"
     log = open("torchResults/log.txt", "w")
     print("Running Standard MNIST Through CNN")
-    log.writelines("Running Standard MNIST Through CNN")
+    log.writelines("Running Standard MNIST Through CNN\n")
     transform = transforms.Compose(
                 [transforms.ToTensor(),
                 transforms.Normalize((0.5,), (1.0,))])
@@ -74,7 +74,7 @@ def plotBatchAccuracy(epoch_accuracy, batchSize): # source: https://stackoverflo
     fig.savefig("%s/testAcc_batchSize_%d.png" % (writeLoc, batchSize))
 
 def plotBatchRateAccuracy(epochAcc_byRate, batchSize):
-    fig = plt.figure(figsize = [7.4, 4.8])
+    fig = plt.figure(figsize = [8.4, 4.8])
     axs = fig.add_subplot(111)
     for a in epochAcc_byRate:
         a.insert(0,0)
@@ -90,7 +90,7 @@ def plotBatchRateAccuracy(epochAcc_byRate, batchSize):
     fig.savefig("%s/testAcc_batchSize_%d.png" % (writeLoc, batchSize))
 
 def plotLoss(lossesByEpoch, batchSize, rate):
-    fig = plt.figure(figsize = [7.4, 4.8])
+    fig = plt.figure(figsize = [8.4, 4.8])
     axs = fig.add_subplot(111)
     for l in lossesByEpoch:
         l.insert(0, 0)
@@ -106,7 +106,7 @@ def plotLoss(lossesByEpoch, batchSize, rate):
     fig.savefig('%s/trainLoss_by_epoch_BS_%d_LR_%d' % (writeLoc, batchSize, rate))
 
 def plotAccuracy(trainAccByEpoch, batchSize, rate):
-    fig = plt.figure(figsize = [7.4, 4.8])
+    fig = plt.figure(figsize = [8.4, 4.8])
     axs = fig.add_subplot(111)
     for a in trainAccByEpoch:
         a.insert(0,0)
@@ -220,8 +220,8 @@ for b, batchSize in enumerate(batch_sizes):
     epochAcc_byRate = []
     # loop over different learning rates to see effect on accuracy
     for r, rate in enumerate(learning_rates):
-        # optimizer = optim.SGD(net.parameters(), lr=rate, momentum=0.9)
-        optimizer = optim.Adam(net.parameters(), lr=rate)
+        optimizer = optim.SGD(net.parameters(), lr=rate, momentum=0.9)
+        # optimizer = optim.Adam(net.parameters(), lr=rate)
 
         ########################################################################
         # 4. Train the network
