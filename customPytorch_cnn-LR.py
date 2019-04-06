@@ -199,7 +199,7 @@ for b, batchSize in enumerate(batch_sizes):
             x = x.view(-1, 16 * 4 * 4) # x shape is 16 * 4 * 4
             x = F.relu(self.fc1(x)) # relu activation function
             x = F.relu(self.fc2(x))
-            x = F.softmax(self.fc3(x)) # softmax activation function
+            x = F.softmax(self.fc3(x), dim = 1) # softmax activation function
             return x
 
 
