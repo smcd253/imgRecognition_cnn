@@ -35,7 +35,7 @@ elif arg is "randomHybrid" or arg is "rH" or arg is "r":
     log.writelines("Running Standard MNIST Through CNN\n")
     transform = transforms.Compose(
                 [transforms.ToTensor(),
-                transforms.RandomApply(transforms.Lambda(lambda x: invert(x)), p = 0.5),
+                transforms.RandomApply([transforms.Lambda(lambda x: invert(x)),], p = 0.5),
                 transforms.Normalize((0.5,), (1.0,))])
 
 exec = sys.argv[2]
