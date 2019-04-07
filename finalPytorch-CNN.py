@@ -11,29 +11,53 @@ import sys
 
 arg = sys.argv[1]
 if arg is "negative" or arg is "neg" or arg is "n":
-    writeLoc = "negativeTorchResults-LR"
+    dataType = "MNIST Negative"
+    writeLoc = "negativeTorchResults-Adam"
     log = open("%s/log.txt" % (writeLoc), "w")
     print("Running MNIST Negatives Through CNN\n")
     log.writelines("Running MNIST Negatives Through CNN\n")
-    transform = transforms.Compose(
+    transformTrain = transforms.Compose(
                 [transforms.ToTensor(),
                 transforms.Lambda(lambda x: invert(x)),
                 transforms.Normalize((0.5,), (1.0,))]
                 )
+    transformTest = transformTrain
+
 elif arg is "standard" or arg is "std" or arg is "s":
-    writeLoc = "torchResults-LR"
+    dataType = "MNIST Standard"
+    writeLoc = "standardTorchResults-Adam"
     log = open("%s/log.txt" % (writeLoc), "w")
     print("Running Standard MNIST Through CNN\n")
     log.writelines("Running Standard MNIST Through CNN\n")
-    transform = transforms.Compose(
+    transformTrain = transforms.Compose(
                 [transforms.ToTensor(),
                 transforms.Normalize((0.5,), (1.0,))])
+    transformTest = transformTrain
+    
 elif arg is "randomHybrid" or arg is "rH" or arg is "r":
-    writeLoc = "torchResults-hybrid"
+    dataType = "MNIST Hybrid"
+    writeLoc = "hybridTorchResults-Adam"
     log = open("%s/log.txt" % (writeLoc), "w")
-    print("Running Standard MNIST Through CNN\n")
-    log.writelines("Running Standard MNIST Through CNN\n")
-    transform = transforms.Compose(
+    print("Running Hybrid MNIST Through CNN\n")
+    log.writelines("Running Hybrid MNIST Through CNN\n")
+    transformTrain = transforms.Compose(
+                [transforms.ToTensor(),
+                transforms.RandomApply([transforms.Lambda(lambda x: invert(x)),], p = 0.5),
+                transforms.Normalize((0.5,), (1.0,))])
+    transformTest = transformTrain
+    
+elif arg is "jitterRandomHybrid" or arg is "jRH" or arg is "j":
+    dataType = "MNIST Hybrid-Jitter"
+    writeLoc = "jitterHybridTorchResults-Adam"
+    log = open("%s/log.txt" % (writeLoc), "w")
+    print("Running Jitter-Hybrid MNIST Through CNN\n")
+    log.writelines("Running Jitter-Hybrid MNIST Through CNN\n")
+    transformTrain = transforms.Compose(
+                [transforms.RandomApply([transforms.RandomAffine(10, translate = (0, 0.1), scale = (0.1, 0.2)),], p = 0.5),
+                transforms.ToTensor(),
+                transforms.RandomApply([transforms.Lambda(lambda x: invert(x)),], p = 0.5),
+                transforms.Normalize((0.5,), (1.0,))])
+    transformTest = transforms.Compose(
                 [transforms.ToTensor(),
                 transforms.RandomApply([transforms.Lambda(lambda x: invert(x)),], p = 0.5),
                 transforms.Normalize((0.5,), (1.0,))])
@@ -79,7 +103,7 @@ def plotBatchRateAccuracy(epochAcc_byRate, batchSize):
     lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy (%)")
-    title = fig.suptitle("Test Accuracy per Epoch Over Different Rates (Batch Size = %d)" % (batchSize))
+    title = fig.suptitle("%s: Test Accuracy per Epoch Over Different Rates (Batch Size = %d)" % (dataType, batchSize))
     fig.savefig("%s/testAcc_batchSize_%d.png" % (writeLoc, batchSize), bbox_extra_artists=(lgd,title), bbox_inches='tight')
 
 def plotLoss(lossesByEpoch, batchSize, rate):
@@ -95,7 +119,7 @@ def plotLoss(lossesByEpoch, batchSize, rate):
     lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.xlabel("Mini-Batch Per Epoch (size 10)")
     plt.ylabel("Loss")
-    title = fig.suptitle("Training Loss by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (batchSize, rate))
+    title = fig.suptitle("%s: Training Loss by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (dataType, batchSize, rate))
     rateWrite = "?"
     if rate == 0.001:
         rateWrite = "pt001"
@@ -118,7 +142,7 @@ def plotAccuracy(trainAccByEpoch, batchSize, rate):
     lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.xlabel("Mini-Batch Per Epoch (size 10)")
     plt.ylabel("Accuracy (%)")
-    title = fig.suptitle("Training Accuracy by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (batchSize, rate))
+    title = fig.suptitle("%s: Training Accuracy by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (dataType, batchSize, rate))
     rateWrite = "?"
     if rate == 0.001:
         rateWrite = "pt001"
@@ -153,13 +177,13 @@ for b, batchSize in enumerate(batch_sizes):
     log.writelines("**************** Batch Size = %d ****************\n" % (batchSize))
 
     trainset = torchvision.datasets.MNIST(root='/home/spencer/Documents/ee569/MNIST', train=True,
-                                            download=True, transform=transform)
+                                            download=True, transform=transformTrain)
 
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=batchSize,
                                             shuffle=True, num_workers=2)  
 
     testset = torchvision.datasets.MNIST(root='/home/spencer/Documents/ee569/MNIST', train=False,
-                                        download=True, transform=transform)
+                                        download=True, transform=transformTest)
     testloader = torch.utils.data.DataLoader(testset, batch_size=batchSize,
                                             shuffle=False, num_workers=2)
 
