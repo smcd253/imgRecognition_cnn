@@ -228,7 +228,7 @@ for b, batchSize in enumerate(batch_sizes):
     # loop over different learning rates to see effect on accuracy
     for r, rate in enumerate(learning_rates):
         print("**************** Rate = %.3f ****************" % (rate))
-        log.writelines("**************** Rate = %.3f ****************" % (rate))
+        log.writelines("**************** Rate = %.3f ****************\n" % (rate))
         # optimizer = optim.SGD(net.parameters(), lr=rate, momentum=0.9)
         optimizer = optim.Adam(net.parameters(), lr=rate)
 
@@ -276,7 +276,7 @@ for b, batchSize in enumerate(batch_sizes):
 
                 # print statistics
                 running_loss += loss.item()
-                
+
                 print('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f' % (epoch + 1, num_epochs, i + 1, running_loss / 2000, train_acc))
                 log.writelines('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f\n' % (epoch + 1, num_epochs, i + 1, running_loss / 2000, train_acc))
 
