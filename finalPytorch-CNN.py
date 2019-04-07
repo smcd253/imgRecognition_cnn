@@ -277,7 +277,7 @@ for b, batchSize in enumerate(batch_sizes):
                 # print statistics
                 running_loss += loss.item()
 
-                if i % 100 == 99: # print and log every 100 mini-batches
+                if i % 10 == 9: # print and log every 100 mini-batches
                     print('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f' % (epoch + 1, num_epochs, i + 1, running_loss / 2000, train_acc))
                     log.writelines('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f\n' % (epoch + 1, num_epochs, i + 1, running_loss / 2000, train_acc))
 
