@@ -1,5 +1,0 @@
-Running Standard MNIST Through CNN
-**************** Batch Size = 1 ****************
-Epoch 1/16 | Mini-Batch  2000 | Loss: 2.302 | Accuracy: 11.500
-Epoch 1/16 | Mini-Batch  4000 | Loss: 2.302 | Accuracy: 11.600
-Epoch 1/16 | Mini-Batch  6000 | Loss: 2.300 | Accuracy: 11.550
