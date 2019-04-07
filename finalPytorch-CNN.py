@@ -227,8 +227,8 @@ for b, batchSize in enumerate(batch_sizes):
     epochAcc_byRate = []
     # loop over different learning rates to see effect on accuracy
     for r, rate in enumerate(learning_rates):
-        print("**************** Rate = %d ****************" % (rate))
-        log.writelines("**************** Rate = %d ****************" % (rate))
+        print("**************** Rate = %.3f ****************" % (rate))
+        log.writelines("**************** Rate = %.3f ****************" % (rate))
         # optimizer = optim.SGD(net.parameters(), lr=rate, momentum=0.9)
         optimizer = optim.Adam(net.parameters(), lr=rate)
 
