@@ -61,7 +61,36 @@ elif arg is "jitterRandomHybrid" or arg is "jRH" or arg is "j":
                 [transforms.ToTensor(),
                 transforms.RandomApply([transforms.Lambda(lambda x: invert(x)),], p = 0.5),
                 transforms.Normalize((0.5,), (1.0,))])
-
+elif arg is "trainStdTestNeg" or arg is "sN":
+    dataType = "MNIST Train Std, Test Neg:"
+    writeLoc = "trainStdTestNeg"
+    log = open("%s/log.txt" % (writeLoc), "w")
+    print("Running TrainStdTestNeg MNIST Through CNN\n")
+    log.writelines("Running TrainStdTestNeg MNIST Through CNN\n")
+    transformTrain = transforms.Compose(
+                [transforms.ToTensor(),
+                transforms.Normalize((0.5,), (1.0,))])
+    transformTest = transforms.Compose(
+                [transforms.ToTensor(),
+                transforms.Lambda(lambda x: invert(x)),
+                transforms.Normalize((0.5,), (1.0,))]
+                )
+elif arg is "jitterTrainStdTestNeg" or arg is "jSN":
+    dataType = "MNIST Train Std with Jitter, Test Neg:"
+    writeLoc = "jitterTrainStdTestNeg"
+    log = open("%s/log.txt" % (writeLoc), "w")
+    print("Running JitterTrainStdTestNeg MNIST Through CNN\n")
+    log.writelines("Running JitterTrainStdTestNeg MNIST Through CNN\n")
+    transformTrain = transforms.Compose(
+                [transforms.RandomApply([transforms.RandomAffine(10, translate = (0, 0.1), scale = (0.1, 0.2)),], p = 0.5),
+                transforms.ToTensor(),
+                transforms.Normalize((0.5,), (1.0,))])
+    transformTest = transforms.Compose(
+                [transforms.ToTensor(),
+                transforms.Lambda(lambda x: invert(x)),
+                transforms.Normalize((0.5,), (1.0,))]
+                ) 
+               
 exec = sys.argv[2]
 if exec is "debug" or exec is "d":
     learning_rates = [0.001]
