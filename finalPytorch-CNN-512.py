@@ -12,8 +12,8 @@ import sys
 arg = sys.argv[1]
 if arg is "negative" or arg is "neg" or arg is "n":
     dataType = "MNIST Negative"
-    writeLoc = "negativeTorchResults-Adam"
-    log = open("%s/log.txt" % (writeLoc), "w")
+    writeLoc = "512results"
+    log = open("%s/log-neg.txt" % (writeLoc), "w")
     print("Running MNIST Negatives Through CNN\n")
     log.writelines("Running MNIST Negatives Through CNN\n")
     transformTrain = transforms.Compose(
@@ -25,8 +25,8 @@ if arg is "negative" or arg is "neg" or arg is "n":
 
 elif arg is "standard" or arg is "std" or arg is "s":
     dataType = "MNIST Standard"
-    writeLoc = "standardTorchResults-Adam"
-    log = open("%s/log.txt" % (writeLoc), "w")
+    writeLoc = "512results"
+    log = open("%s/log-std.txt" % (writeLoc), "w")
     print("Running Standard MNIST Through CNN\n")
     log.writelines("Running Standard MNIST Through CNN\n")
     transformTrain = transforms.Compose(
@@ -36,8 +36,8 @@ elif arg is "standard" or arg is "std" or arg is "s":
     
 elif arg is "randomHybrid" or arg is "rH" or arg is "r":
     dataType = "MNIST Hybrid"
-    writeLoc = "hybridTorchResults-Adam"
-    log = open("%s/log.txt" % (writeLoc), "w")
+    writeLoc = "512results"
+    log = open("%s/log-randHybrid.txt" % (writeLoc), "w")
     print("Running Hybrid MNIST Through CNN\n")
     log.writelines("Running Hybrid MNIST Through CNN\n")
     transformTrain = transforms.Compose(
@@ -48,8 +48,8 @@ elif arg is "randomHybrid" or arg is "rH" or arg is "r":
     
 elif arg is "jitterRandomHybrid" or arg is "jRH" or arg is "j":
     dataType = "MNIST Hybrid-Jitter"
-    writeLoc = "jitterHybridTorchResults-Adam"
-    log = open("%s/log.txt" % (writeLoc), "w")
+    writeLoc = "512results"
+    log = open("%s/log-jitterHybrid.txt" % (writeLoc), "w")
     print("Running Jitter-Hybrid MNIST Through CNN\n")
     log.writelines("Running Jitter-Hybrid MNIST Through CNN\n")
     transformTrain = transforms.Compose(
@@ -63,8 +63,8 @@ elif arg is "jitterRandomHybrid" or arg is "jRH" or arg is "j":
                 transforms.Normalize((0.5,), (1.0,))])
 elif arg is "trainStdTestNeg" or arg is "d":
     dataType = "MNIST Train Std, Test Neg:"
-    writeLoc = "trainStdTestNeg"
-    log = open("%s/log.txt" % (writeLoc), "w")
+    writeLoc = "512results"
+    log = open("%s/log-TSTN.txt" % (writeLoc), "w")
     print("Running TrainStdTestNeg MNIST Through CNN\n")
     log.writelines("Running TrainStdTestNeg MNIST Through CNN\n")
     transformTrain = transforms.Compose(
@@ -77,8 +77,8 @@ elif arg is "trainStdTestNeg" or arg is "d":
                 )
 elif arg is "jitterTrainStdTestNeg" or arg is "i":
     dataType = "MNIST Train Std with Jitter, Test Neg:"
-    writeLoc = "jitterTrainStdTestNeg"
-    log = open("%s/log.txt" % (writeLoc), "w")
+    writeLoc = "512results"
+    log = open("%s/log-jitter.txt" % (writeLoc), "w")
     print("Running JitterTrainStdTestNeg MNIST Through CNN\n")
     log.writelines("Running JitterTrainStdTestNeg MNIST Through CNN\n")
     transformTrain = transforms.Compose(
