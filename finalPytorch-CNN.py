@@ -93,7 +93,7 @@ def plotLoss(lossesByEpoch, batchSize, rate):
         axs.plot(losses, label = 'epoch %d' % (epoch + 1))
     plt.xlim(left=1)
     lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.xlabel("Mini-Batch Per Epoch (size 2000)")
+    plt.xlabel("Mini-Batch Per Epoch (size 10)")
     plt.ylabel("Loss")
     title = fig.suptitle("Training Loss by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (batchSize, rate))
     rateWrite = "?"
@@ -116,7 +116,7 @@ def plotAccuracy(trainAccByEpoch, batchSize, rate):
         axs.plot(accuracies, label = 'epoch %d' % (epoch + 1))
     plt.xlim(left = 1)
     lgd = plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.xlabel("Mini-Batch Per Epoch (size 2000)")
+    plt.xlabel("Mini-Batch Per Epoch (size 10)")
     plt.ylabel("Accuracy (%)")
     title = fig.suptitle("Training Accuracy by Epoch (Batch Size = %d) (Learning Rate = %.3f)" % (batchSize, rate))
     rateWrite = "?"
@@ -276,10 +276,11 @@ for b, batchSize in enumerate(batch_sizes):
 
                 # print statistics
                 running_loss += loss.item()
-
-                if i % 10 == 9: # print and log every 100 mini-batches
-                    print('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f' % (epoch + 1, num_epochs, i + 1, running_loss / 2000, train_acc))
-                    log.writelines('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f\n' % (epoch + 1, num_epochs, i + 1, running_loss / 2000, train_acc))
+                
+                miniBatchSize = 10
+                if i % miniBatchSize == 9: # print and log every 100 mini-batches
+                    print('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f' % (epoch + 1, num_epochs, i + 1, running_loss / 10, train_acc))
+                    log.writelines('Epoch %d/%d | Mini-Batch %5d | Loss: %.3f | Accuracy: %.3f\n' % (epoch + 1, num_epochs, i + 1, running_loss / 10, train_acc))
 
                     losses.append(running_loss/2000)
                     running_loss = 0.0
