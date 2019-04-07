@@ -35,6 +35,7 @@ elif arg is "randomHybrid" or arg is "rH" or arg is "r":
     log.writelines("Running Standard MNIST Through CNN\n")
     transform = transforms.Compose(
                 [transforms.ToTensor(),
+                transforms.RandomApply(transforms.Lambda(lambda x: invert(x)), p = 0.5),
                 transforms.Normalize((0.5,), (1.0,))])
 
 exec = sys.argv[2]
@@ -64,22 +65,6 @@ def imshow(img):
     npimg = img.numpy()
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.show()
-
-def plotBatchAccuracy(epoch_accuracy, batchSize): # source: https://stackoverflow.com/questions/19189488/use-a-loop-to-plot-n-charts-python
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    epoch_accuracy.append(0)
-    epoch_accuracy.rotate(1)
-    xint = range(1, epoch_accuracy.__len__())
-    plt.xticks(xint)
-    ax.plot(epoch_accuracy)
-    epoch_accuracy.popleft() # trim 0 value to get max and min
-    plt.xlim(left=1)
-    plt.ylim(bottom = min(epoch_accuracy), top = max(epoch_accuracy))
-    plt.xlabel("Epoch")
-    plt.ylabel("Accuracy (%)")
-    fig.suptitle("Test Accuracy per Epoch (Batch Size = %d)" % (batchSize))
-    fig.savefig("%s/testAcc_batchSize_%d.png" % (writeLoc, batchSize))
 
 def plotBatchRateAccuracy(epochAcc_byRate, batchSize):
     fig = plt.figure(figsize = [8.4, 4.8])
@@ -242,6 +227,8 @@ for b, batchSize in enumerate(batch_sizes):
     epochAcc_byRate = []
     # loop over different learning rates to see effect on accuracy
     for r, rate in enumerate(learning_rates):
+        print("**************** Rate = %d ****************" % (rate))
+        log.writelines("**************** Rate = %d ****************" % (rate))
         # optimizer = optim.SGD(net.parameters(), lr=rate, momentum=0.9)
         optimizer = optim.Adam(net.parameters(), lr=rate)
 
