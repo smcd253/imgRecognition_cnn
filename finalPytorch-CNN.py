@@ -92,7 +92,21 @@ elif arg is "jitterTrainStdTestNeg" or arg is "i":
                 transforms.Lambda(lambda x: invert(x)),
                 transforms.Normalize((0.5,), (1.0,))]
                 ) 
-               
+elif arg is "50-50" or arg is "yy" or arg is "y":
+    dataType = "MNIST Train 50-50 Neg/Pos"
+    writeLoc = "50-50augmentForNeg"
+    log = open("%s/log.txt" % (writeLoc), "w")
+    print("Running 50-50 MNIST Through CNN\n")
+    log.writelines("Running 50-50 MNIST Through CNN\n")
+    transformTrain = transforms.Compose(
+                [transforms.ToTensor(),
+                transforms.RandomApply([transforms.Lambda(lambda x: invert(x)),], p = 0.5),
+                transforms.Normalize((0.5,), (1.0,))])
+    transformTest = transforms.Compose(
+                [transforms.ToTensor(),
+                transforms.Lambda(lambda x: invert(x)),
+                transforms.Normalize((0.5,), (1.0,))])
+
 exec = sys.argv[2]
 if exec is "debug" or exec is "d":
     learning_rates = [0.001]
@@ -104,7 +118,7 @@ elif exec is "test" or exec is "t":
     num_epochs = 16
 elif exec is "high" or exec is "h":
     learning_rates = [0.001, 0.01, 0.1]
-    batch_sizes = [64, 128, 256, 1024, 2048]
+    batch_sizes = [64, 128, 256, 512, 1024, 2048]
     num_epochs = 16
 elif exec is "f":
     learning_rates = [0.001, 0.01, 0.1]
